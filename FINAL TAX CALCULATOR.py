@@ -3,7 +3,7 @@
 
 # In[2]:
 
-
+#This code is used to calculate the new tax rates as of July 2023
 def calculate_tax(taxable_income, deduction):
     tax_bands = [
         (24000, 0.10),
