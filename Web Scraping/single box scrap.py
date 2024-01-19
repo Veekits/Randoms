@@ -8,3 +8,12 @@ soup = BeautifulSoup(r.text, "html.parser")
 
 boxes = soup.find_all("div",{"class":"product-inner pr"})
 print(boxes)
+
+box = soup.find_all("div",{"class":"product-inner pr"})[3]
+print(box)
+
+name = box.find("a", {"class":"cd chp"}).text
+print(name)
+
+price = box.find("span", {"class":"price"}).text
+print(price)
