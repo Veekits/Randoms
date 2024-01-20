@@ -15,7 +15,14 @@ for i in head1:
     title = i.text
     titles.append(title)
 
-print(titles)
-
 df = pd.DataFrame(columns = titles)
-print(df)
+
+rows = table.find_all("tr")
+
+for i in rows[2:]:
+    data = i.find_all("td")
+    row = [tr.text for tr in data]
+    l = len(df)
+    df.loc[l] = row
+    
+df.to_csv("forex_exchange_cbk.csv")
