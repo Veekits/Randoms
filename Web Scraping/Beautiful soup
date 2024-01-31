@@ -1,0 +1,18 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+s = Service("C:/Users/Vee/Downloads/chromedriver-win64/chromedriver-win64/chromedriver.exe")
+driver = webdriver.Chrome(service = s)
+driver.get("https://www.ajio.com/s/min-40-percent-off-5294-47848")
+time.sleep(7)
+
+while True:
+    height = driver.execute_script("return document.body.scrollHeight")
+    print(height)
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    if height == new_height:
+        break

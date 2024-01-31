@@ -1,0 +1,20 @@
+with python,
+read file Amazon_Deals.html and parse it with BeautifulSoup
+
+find all 
+<div with class="scroll-carousel_slide__1ku-E scroll-carousel_scrollItemOuter__2LsK9" data-id="slide" style="width: 174px;">
+
+for all the divs
+
+try find div with class="title--3qM6_ title--X01QH titleAnchor--2TGNn doubleLinesTitle--ATRHO" data-id="TileTitle" role="button" tabindex="0"
+except Product_name = " "
+
+try find div class="dealPrice--QJhpv" data-id="DealPrice" aria-label="Deal price is $179.99"
+with span class="netPrice--2L7XO" aria-hidden="true"
+except Deal_price = " "
+
+try find div class="listPrice--vhN5A" aria-label="List price is $269.99" data-id="ListPrice"
+with span
+except List_price = " "
+
+open an excel file and write Product_name, Deal_price, List_price
