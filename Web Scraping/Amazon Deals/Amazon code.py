@@ -1,9 +1,8 @@
 from bs4 import BeautifulSoup
 import openpyxl
 
-
-# Read the HTML file
-with open('Amazon_Deals.html', 'r', encoding='utf-8') as file:
+html_file_path = r'C:/Users/Vee/OneDrive - Goodlife Pharmacy/Desktop/MY PROJECTS/Randoms/Web Scraping/Amazon Deals/Amazon _ Deals.html'
+with open(html_file_path, 'r', encoding='utf-8') as file:
     html_content = file.read()
 
 # Parse the HTML content with BeautifulSoup
