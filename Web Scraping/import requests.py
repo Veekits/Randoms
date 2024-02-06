@@ -15,16 +15,17 @@ search = driver.find_element(By.XPATH, """/html/body/div[1]/div[3]/form/div[1]/d
 search.send_keys('Datajobs')
 search.send_keys(Keys.ENTER)
 
-driver.find_element(By.XPATH, """/html/body/div[5]/div/div[11]/div[1]/div[2]/div[2]/div/div/div[1]/div/div/div/div/div/div/div/div[1]/div/span/a/h3""").click()
+driver.find_element(By.XPATH, """/html/body/div[5]/div/div[12]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div/div/div/div[1]/div/span/a/h3""").click()
 time.sleep(3)
 
-search1 = driver.find_element(By.XPATH, """/html/body/div[2]/div[1]/div/span/div[4]/div[1]/div/div/div/div/form/div/div[1]/div[1]/div/div/span/input""")
+search1 = driver.find_element(By.XPATH, """/html/body/div[2]/div[7]/div/div/form/div[2]/input""")
 search1.send_keys('Data Science')
 time.sleep(3)
-search2 = driver.find_element(By.XPATH, """/html/body/div[2]/div[1]/div/span/div[4]/div[1]/div/div/div/div/form/div/div[1]/div[3]/div/div/span/input""")
+search2 = driver.find_element(By.XPATH, """/html/body/div[2]/div[7]/div/div/form/div[3]/input""")
 search2.send_keys('Remote')
 time.sleep(3)
-driver.find_element(By.XPATH, """/html/body/div[2]/div[1]/div/span/div[4]/div[1]/div/div/div/div/form/div/div[2]/button""").click()
+driver.find_element(By.XPATH, """/html/body/div[2]/div[1]/div/div/form/div[4]/input""")
+driver.send_keys(Keys.ENTER)
 
 html_content = driver.page_source
 soup = BeautifulSoup(html_content, "html.parser")
