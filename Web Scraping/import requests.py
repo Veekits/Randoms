@@ -1,4 +1,3 @@
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service 
@@ -14,6 +13,7 @@ time.sleep(2)
 search = driver.find_element(By.XPATH, """/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/textarea""")
 search.send_keys('Datajobs')
 search.send_keys(Keys.ENTER)
+time.sleep(3)
 
 driver.find_element(By.XPATH, """/html/body/div[5]/div/div[12]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div/div/div/div[1]/div/span/a/h3""").click()
 time.sleep(3)
@@ -23,12 +23,30 @@ search1.send_keys('Data Science')
 time.sleep(3)
 search2 = driver.find_element(By.XPATH, """/html/body/div[2]/div[7]/div/div/form/div[3]/input""")
 search2.send_keys('Remote')
-time.sleep(3)
-driver.find_element(By.XPATH, """/html/body/div[2]/div[1]/div/div/form/div[4]/input""")
-driver.send_keys(Keys.ENTER)
+search2.send_keys(Keys.ENTER)
 
 html_content = driver.page_source
 soup = BeautifulSoup(html_content, "html.parser")
-jobs = soup.find_all('div', class_='jobsearch-SerpJobCard')
-print(jobs)
+job_listings = soup.find_all('div', {"style" : "display:table-cell; width:520px;"})
+
+for job_listing in job_listings:
+    # Extract hyperlink
+    hyperlink = job_listing.find('a')['href'] if job_listing.find('a') else ""
+
+    # Extract job title
+    job_title = job_listing.find('strong').text.strip() if job_listing.find('strong') else ""
+
+    # Extract location
+    location = job_listing.find('span', {"style": "font-size:14px; text-transform:capitalize;"}).text.strip() if job_listing.find('span') else ""
+
+    # Extract company or institution
+    company = job_listing.find('span', {"style": "font-size:14px; text-transform:capitalize;"}).text.strip() if job_listing.find('span') else ""
+
+    # Print or store the extracted information
+    print("Hyperlink:", hyperlink)
+    print("Job Title:", job_title)
+    print("Location:", location)
+    print("Company:", company)
+    print("\n")
+
 
