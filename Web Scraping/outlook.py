@@ -11,6 +11,12 @@ def clean_subject(subject):
 output_dir = Path.cwd() / "OUTPUT"
 output_dir.mkdir(parents=True, exist_ok=True)
 
+excel_attachments_dir = output_dir / "Excel Attachments"
+excel_attachments_dir.mkdir(parents=True, exist_ok=True)
+
+other_attachments_dir = output_dir / "Other Attachments"
+other_attachments_dir.mkdir(parents=True, exist_ok=True)
+
 # Connect to Outlook
 outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
 
@@ -20,9 +26,12 @@ inbox = outlook.GetDefaultFolder(6)
 # Get today's date
 today = datetime.datetime.now().date()
 
-# Iterate through emails and filter for today only
-for message in inbox.Items.Restrict("[ReceivedTime] >= '" + today.strftime('%m/%d/%Y 00:00 AM') + "'"):
+yesterday = today - datetime.timedelta(days=1)
+
+# Iterate through emails and filter for yesterday only
+for index, message in enumerate(inbox.Items.Restrict("[ReceivedTime] >= '" + yesterday.strftime('%m/%d/%Y 00:00 AM') + "'")):
     subject = message.Subject
+    sender_name = message.SenderName
     body = message.Body
     attachments = message.Attachments
 
@@ -30,12 +39,16 @@ for message in inbox.Items.Restrict("[ReceivedTime] >= '" + today.strftime('%m/%
     cleaned_subject = clean_subject(subject)
 
     if "special order" in cleaned_subject.lower():
-        target_subject = cleaned_subject
+        target_subject = f"{index + 1}_{sender_name}"  # Include index in folder name
 
-        target_folder = output_dir / target_subject
+        target_folder = excel_attachments_dir if any(attachment.FileName.endswith(".xlsx") for attachment in attachments) else other_attachments_dir
+        target_folder = target_folder / target_subject
         target_folder.mkdir(parents=True, exist_ok=True)
 
         Path(target_folder / "EMAIL_BODY.txt").write_text(str(body))
 
         for attachment in attachments:
             attachment.SaveAsFile(target_folder / str(attachment))
+
+
+
