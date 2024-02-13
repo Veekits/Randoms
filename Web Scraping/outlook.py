@@ -45,10 +45,14 @@ for index, message in enumerate(inbox.Items.Restrict("[ReceivedTime] >= '" + yes
         target_folder = target_folder / target_subject
         target_folder.mkdir(parents=True, exist_ok=True)
 
-        Path(target_folder / "EMAIL_BODY.txt").write_text(str(body))
+        # Save email body if needed
+        # Path(target_folder / "EMAIL_BODY.txt").write_text(str(body))
 
         for attachment in attachments:
-            attachment.SaveAsFile(target_folder / str(attachment))
+            # Exclude PNG files
+            if not attachment.FileName.endswith((".png", ".jpg")):
+                attachment.SaveAsFile(target_folder / str(attachment))
+
 
 
 

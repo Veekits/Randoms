@@ -28,8 +28,8 @@ today = datetime.datetime.now().date()
 
 yesterday = today - datetime.timedelta(days=1)
 
-# Iterate through emails and filter for today only
-for message in inbox.Items.Restrict("[ReceivedTime] >= '" + yesterday.strftime('%m/%d/%Y 00:00 AM') + "'"):
+# Iterate through emails and filter for yesterday only
+for index, message in enumerate(inbox.Items.Restrict("[ReceivedTime] >= '" + yesterday.strftime('%m/%d/%Y 00:00 AM') + "'")):
     subject = message.Subject
     sender_name = message.SenderName
     body = message.Body
@@ -39,14 +39,16 @@ for message in inbox.Items.Restrict("[ReceivedTime] >= '" + yesterday.strftime('
     cleaned_subject = clean_subject(subject)
 
     if "special order" in cleaned_subject.lower():
-        target_subject = sender_name
+        target_subject = f"{index + 1}_{sender_name}"  # Include index in folder name
 
         target_folder = excel_attachments_dir if any(attachment.FileName.endswith(".xlsx") for attachment in attachments) else other_attachments_dir
         target_folder = target_folder / target_subject
         target_folder.mkdir(parents=True, exist_ok=True)
 
-        Path(target_folder / "EMAIL_BODY.txt").write_text(str(body))
+        # Save email body if needed
+        # Path(target_folder / "EMAIL_BODY.txt").write_text(str(body))
 
         for attachment in attachments:
-            attachment.SaveAsFile(target_folder / str(attachment))
-
+            # Exclude PNG files
+            if not attachment.FileName.endswith((".png", ".jpg")):
+                attachment.SaveAsFile(target_folder / str(attachment))
