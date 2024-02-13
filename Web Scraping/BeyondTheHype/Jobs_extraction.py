@@ -11,9 +11,9 @@ driver.get("https://www.google.com/")
 time.sleep(2)
 
 search = driver.find_element(By.XPATH, """/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/textarea""")
-search.send_keys('Datajobs')
+search.send_keys('Datajobs.com')
 search.send_keys(Keys.ENTER)
-time.sleep(3)
+time.sleep(5)
 
 driver.find_element(By.XPATH, """/html/body/div[5]/div/div[12]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div/div/div/div[1]/div/span/a/h3""").click()
 time.sleep(3)
